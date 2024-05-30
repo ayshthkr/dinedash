@@ -1,17 +1,28 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@conform-to/react": "^1.1.4",
     "@conform-to/zod": "^1.1.4",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toggle": "^1.0.3",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@uppy/core": "^3.11.3",
+    "@uppy/dashboard": "^3.8.3",
+    "@uppy/drag-drop": "^3.1.0",
+    "@uppy/file-input": "^3.1.2",
+    "@uppy/progress-bar": "^3.1.1",
+    "@uppy/react": "^3.3.1",
+    "@uppy/tus": "^3.5.5",
+    "@uppy/webcam": "^3.4.1",
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -19,18 +30,25 @@
     "geist": "^1.2.1",
     "lucide-react": "^0.379.0",
     "next": "latest",
+    "nextjs-toploader": "^1.6.12",
     "postcss": "8.4.33",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.3.3"
+    "tus-js-client": "^4.1.0",
+    "typescript": "5.3.3",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "eslint-config-prettier": "^9.1.0",
+    "zod": "^3.23.8"
   }
 }
