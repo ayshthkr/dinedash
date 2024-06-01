@@ -13,15 +13,13 @@ export default function Page() {
   useEffect(() => {
     cartStore.persist.rehydrate();
     setHasHydrated(true);
+    clear();
   }, []);
 
   if (!hasHydrated) return null;
 
   return (
-    <div
-      className="w-full font-funky text-3xl font-semibold text-center"
-      onLoad={() => clear()}
-    >
+    <div className="w-full font-funky text-3xl font-semibold text-center">
       <div>Order placed and cart cleared</div>
       <div>
         <Link href={"/"}>

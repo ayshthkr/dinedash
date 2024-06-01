@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
-import { User } from "@supabase/supabase-js";
 import { ShoppingBagIcon } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { cartStore } from "@/store";
@@ -22,7 +20,7 @@ function ClientCart() {
   if (!hasHydrated) return null;
 
   return (
-    <Button variant={"outline"} className="gap-2">
+    <Button variant={"outline"} className="gap-2 w-full mr-4 sm:mr-0">
       {itemsCount} <ShoppingBagIcon />
     </Button>
   );
