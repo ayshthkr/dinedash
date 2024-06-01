@@ -8,8 +8,8 @@ import { useFormState, useFormStatus } from "react-dom";
 import { schema } from "./schema";
 import { Button } from "@/components/ui/button";
 
-export default function Form({ slug }: { slug: string }) {
-    const na = addComment.bind(null, slug);
+export default function Form({ slug, name }: { slug: string; name: string }) {
+  const na = addComment.bind(null, slug);
   const [lastResult, action] = useFormState(na, undefined);
   const [form, fields] = useForm({
     lastResult,
@@ -33,7 +33,7 @@ export default function Form({ slug }: { slug: string }) {
           type="text"
           name={fields.name.name}
           key={fields.name.key}
-          defaultValue={fields.name.initialValue}
+          defaultValue={name}
         />
         <div className="text-destructive">{fields.name.errors}</div>
       </div>
@@ -46,7 +46,7 @@ export default function Form({ slug }: { slug: string }) {
             key={fields.comment.key}
             defaultValue={fields.comment.initialValue}
           />
-                <SubmitButton />
+          <SubmitButton />
         </div>
         <div className="text-destructive">{fields.name.errors}</div>
       </div>

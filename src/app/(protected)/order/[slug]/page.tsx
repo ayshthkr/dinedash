@@ -93,13 +93,21 @@ function Skeleton() {
 
 async function Loader({ slug }: { slug: string }) {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("dishes")
     .select("*")
     .eq("slug", slug)
     .single();
-
-  if (data == null) return notFound();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (data == null || user == null) return notFound();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+  if (profile == null) return notFound();
 
   return (
     <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6">
@@ -140,7 +148,7 @@ async function Loader({ slug }: { slug: string }) {
         </div>
         <div>
           <h2 className="text-2xl font-bold">Comments</h2>
-          <Form slug={slug} />
+          <Form slug={slug} name={profile.username ?? ""} />
           <div className="mt-4 space-y-4">
             {data.comments.map((comment, i) => {
               return (

@@ -42,7 +42,6 @@ export const cartStore = create<CartStore>()(
       reduceAmount: (slug) => {
         const item = get().items.find((item) => item.slug == slug);
         if (item == undefined) return;
-        const amt = item.amount;
         const items = get().items.filter((it) => it.slug != slug);
         if (item.amount > 1) {
           items.push({ ...item, amount: item.amount - 1 });
@@ -62,6 +61,34 @@ export const cartStore = create<CartStore>()(
     {
       name: "cart",
       skipHydration: true,
-    },
-  ),
+    }
+  )
+);
+
+export type Theme = "light" | "dark";
+
+export type ThemeState = {
+  theme: Theme;
+};
+
+export type ThemeActions = {
+  switchTheme: () => void;
+};
+
+export type ThemeStore = ThemeState & ThemeActions;
+
+export const themeStore = create<ThemeStore>()(
+  persist(
+    (set, get) => ({
+      theme: "light",
+      switchTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
+    }),
+    {
+      name: "theme",
+      skipHydration: true,
+    }
+  )
 );

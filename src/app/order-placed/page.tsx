@@ -14,7 +14,7 @@ export default function Page() {
     cartStore.persist.rehydrate();
     setHasHydrated(true);
     clear();
-  }, []);
+  }, [clear]);
 
   if (!hasHydrated) return null;
 

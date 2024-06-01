@@ -5,6 +5,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { schema as commentSchema } from "../(protected)/order/[slug]/schema";
+import { schema as helpSchema } from "../customer-service/schema";
 import { revalidatePath } from "next/cache";
 
 export const signInWithGithub = async () => {
@@ -27,7 +28,7 @@ export const signOut = async () => {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
   if (error) console.error(error.message);
-  revalidatePath("/", "layout");https://chat.whatsapp.com/HI33zo6qTV7Gl9TJPBUbSD
+  revalidatePath("/", "layout");
   return redirect("/login");
 };
 
@@ -69,4 +70,42 @@ export const addComment = async (
     .eq("slug", slug);
 
   revalidatePath("/", "layout");
+};
+
+export async function addHelp(prevState: unknown, formData: FormData) {
+  const submission = parseWithZod(formData, {
+    schema: helpSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tickets")
+    .insert({
+      name: submission.value.name,
+      message: submission.value.message,
+      email: submission.value.email,
+    })
+    .select()
+    .single();
+
+  if (error) console.error(error);
+
+  revalidatePath("/", "layout");
+  redirect(`/customer-service/success?id=${data?.id}`);
+}
+
+export const signUp = async () => {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email: "test@gmail.com",
+    password: "testuser",
+  });
+
+  if (error) console.error(error.message);
+
+  redirect("/order");
 };

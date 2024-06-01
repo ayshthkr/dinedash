@@ -6,12 +6,18 @@ import { Button } from "./ui/button";
 import ClientCart from "./navbar";
 import { signOut } from "@/app/actions/actions";
 import Image from "next/image";
+import { LoaderIcon } from "lucide-react";
+import ThemeSwitcher from "./theme-switcher";
 
 export default function Navbar() {
-  const links = [{ label: "Order", link: "/order" }];
+  const links = [
+    { label: "Order", link: "/order" },
+    { label: "About Us", link: "/about" },
+    { label: "Customer Service", link: "/customer-service" },
+  ];
 
   return (
-    <nav className="w-full flex flex-col md:flex-row justify-between items-center md:h-32 border-b-4 border-primary/75 md:sticky md:top-0 z-10 bg-background/90">
+    <nav className="w-full flex flex-col md:flex-row justify-between items-center md:h-32 border-b-4 border-primary/75 md:sticky md:top-0 md:z-10 bg-background/90">
       <div className="h-full">
         <Link href="/" className="flex items-center h-full">
           <Image
@@ -33,19 +39,19 @@ export default function Navbar() {
             </ClientButton>
           </Link>
         ))}
-        <Suspense>
+        <Suspense fallback={<Skeleton />}>
           <Loader />
         </Suspense>
         <Link href="/cart" className="w-full p-0.5">
           <ClientCart />
         </Link>
+        <ThemeSwitcher />
       </div>
     </nav>
   );
 }
 
 async function Loader() {
-  setInterval(() => {}, 5000);
   const supabase = createClient();
   const {
     data: { user },
@@ -66,5 +72,15 @@ async function Loader() {
         SignOut
       </Button>
     </form>
+  );
+}
+
+function Skeleton() {
+  return (
+    <div className="w-full p-0.5">
+      <Button className="w-full" variant={"outline"}>
+        <LoaderIcon className="animate-spin" />
+      </Button>
+    </div>
   );
 }

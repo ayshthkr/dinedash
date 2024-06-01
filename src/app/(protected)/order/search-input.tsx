@@ -24,7 +24,7 @@ export default function SearchInput() {
 
   useEffect(() => {
     if (searchparams.get("q")?.toString()) input.current?.focus();
-  }, []);
+  }, [searchparams]);
   return (
     <>
       <Input
