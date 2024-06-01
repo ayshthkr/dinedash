@@ -20,9 +20,6 @@ export default function Navbar() {
             className="h-32 w-full md:h-full rounded-full p-4"
             width={500}
             height={500}
-            // style={{
-            //   height: "100%", width: "auto"
-            // }}
           />
           <span className="text-3xl font-funky">DineDash</span>
         </Link>
@@ -63,20 +60,11 @@ async function Loader() {
       </Link>
     );
 
-  const link = { label: "My Account", link: "/my-account" };
-
   return (
-    <>
-      <Link href={link.link} key={link.link} className="w-full p-0.5">
-        <ClientButton href={link.link} className="w-full">
-          {link.label}
-        </ClientButton>
-      </Link>
-      <form action={signOut} className="w-full p-0.5">
-        <Button variant={"outline"} className="w-full">
-          SignOut
-        </Button>
-      </form>
-    </>
+    <form action={signOut} className="w-full p-0.5">
+      <Button variant={"outline"} className="w-full">
+        SignOut
+      </Button>
+    </form>
   );
 }

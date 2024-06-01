@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ArrowRightCircleIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +11,12 @@ export default function Page() {
           Authentic Indian Flavors Delivered: Enjoy Traditional Dishes from All
           Over India at Your Doorstep
         </span>
-          <Link href={'/order'}><Button variant={'link'}>Order now</Button></Link>
+        <Link href={"/order"}>
+          <Button variant={"link"} className="flex gap-2">
+            Order now
+            <ArrowRightCircleIcon />
+          </Button>
+        </Link>
       </div>
       <Image src={"/video.gif"} height={1920} width={1080} alt="Video" />
     </div>
