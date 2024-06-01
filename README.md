@@ -1,93 +1,182 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+# Dinedash - Order food from comfort of your home
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+A web app to order food from the comfort of your home (Devcomm JC Task).
 
-## Features
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## Environment Variables
 
-## Demo
+To run this project, you will need to add the following environment variables to your .env file
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+`NEXT_PUBLIC_SUPABASE_URL`
 
-## Deploy to Vercel
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-Vercel deployment will guide you through creating a Supabase account and project.
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+## Run Locally
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20throughout%20the%20entire%20Next.js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6)
+Clone the project
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+```bash
+  git clone https://github.com/ayshthkr/dinedash.git
+```
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+Go to the project directory
 
-## Clone and run locally
+```bash
+  cd dinedash
+```
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+Install dependencies
 
-2. Create a Next.js app using the Supabase Starter template npx command
+```bash
+  bun install
+```
 
-   ```bash
-   npx create-next-app -e with-supabase
-   ```
+Start the server
 
-3. Use `cd` to change into the app's directory
+```bash
+  bun run dev
+```
 
-   ```bash
-   cd name-of-new-app
-   ```
 
-4. Rename `.env.local.example` to `.env.local` and update the following:
+## Screenshots
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+![App Tutorial Video](https://raw.githubusercontent.com/ayshthkr/dinedash/main/public/video.gif)
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-5. You can now run the Next.js local development server:
+## Database Setup
 
-   ```bash
-   npm run dev
-   ```
+You can use any postgres database using the script provided below
+(Don't forget to create a public storage bucket from dashboard (last line won't work unless))
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+```postgresql
+-- Create a table for public profiles
+create table
+  profiles (
+    id uuid references auth.users on delete cascade not null primary key,
+    updated_at timestamp with time zone,
+    username text unique,
+    email text unique constraint username_length check (char_length(username) >= 3)
+  );
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+-- Set up Row Level Security (RLS)
+-- See https://supabase.com/docs/guides/auth/row-level-security for more details.
+alter table profiles enable row level security;
 
-## Feedback and issues
+create policy "Public profiles are viewable by everyone." on profiles for
+select
+  using (true);
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+create policy "Users can insert their own profile." on profiles for insert
+with
+  check (
+    (
+      select
+        auth.uid ()
+    ) = id
+  );
 
-## More Supabase examples
+create policy "Users can update own profile." on profiles
+for update
+  using (
+    (
+      select
+        auth.uid ()
+    ) = id
+  );
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+-- This trigger automatically creates a profile entry when a
+-- new user signs up via Supabase Auth.
+-- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
+create function public.handle_new_user () returns trigger as $$
+begin
+  -- insert into public.profiles (id, full_name, avatar_url)
+  insert into public.profiles (id, username, email)
+  values (new.id, SPLIT_PART(new.email, '@', '1'), new.email);
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_auth_user_created
+after insert on auth.users for each row
+execute procedure public.handle_new_user ();
+
+
+CREATE TABLE
+  public.dishes (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name text not null,
+    description text,
+    category text not null,
+    price NUMERIC not null,
+    prepTime NUMERIC not null,
+    isVeg bool,
+    imgUrl text not null,
+    comments jsonb[] default '{}'::jsonb[],
+    slug text unique
+  );
+
+alter table public.dishes enable row level security;
+
+create policy "Enable read access for all users"
+on public.dishes
+as PERMISSIVE
+for SELECT
+to public
+using (
+  true
+);
+
+CREATE TABLE
+    public.tickets (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        name text not null,
+        email text not null,
+        message text not null,
+        completed bool default false,
+        created_at timestampz default now()
+    );
+
+alter table public.tickets enable row level security;
+
+create policy "Enable read access for all users"
+on public.tickets
+as PERMISSIVE
+for SELECT
+to public
+using (
+  true
+);
+
+create policy "Enable insert for all users"
+on public.tickets
+as PERMISSIVE
+for INSERT
+to public
+with check (
+    true
+);
+
+CREATE POLICY "allow uploads" ON storage.objects
+FOR INSERT TO public WITH CHECK (bucket_id = 'dishes');
+
+
+```
+
+## Tech Stack
+
+[NextJS V14](https://nextjs.org/), [Supabase](https://supabase.com/), [ShadCN UI](https://ui.shadcn.com/)
+
+
+## Deployment
+
+To deploy this project
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fayshthkr%2Fdinedash&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY)
+
+
+## Authors
+
+- [@ayshthkr](https://www.github.com/ayshthkr)
+
