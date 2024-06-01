@@ -56,4 +56,35 @@
   body {
     @apply bg-background text-foreground;
   }
+  .decor {
+    background-size: 100% 15%;
+    background-repeat: repeat-x;
+    background-position: left 0% bottom 3%;
+    background-image: linear-gradient(
+      181deg,
+      #ffa620 0%,
+      #fba11a 50%,
+      transparent 54%,
+      transparent 100%
+    );
+  }
+  .decor.orange {
+    background-size: 100% 15%;
+    background-repeat: repeat-x;
+    background-position: left 0% bottom 3%;
+    background-image: linear-gradient(
+      90deg,
+      rgb(218, 230, 1) 0%,
+      rgb(218, 230, 1) 7%,
+      rgb(226, 203, 7) 7%,
+      rgb(226, 203, 7) 14%,
+      rgb(234, 176, 13) 14%,
+      rgb(234, 176, 13) 21%,
+      rgb(242, 148, 18) 21%,
+      rgb(242, 148, 18) 28%,
+      rgb(250, 121, 24) 28%,
+      rgb(250, 121, 24) 100%
+    );
+    background-size: 100% 10%;
+  }
 }

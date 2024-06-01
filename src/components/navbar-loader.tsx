@@ -1,22 +1,28 @@
 import { createClient } from "@/utils/supabase/server";
-import NavbarClient, { ClientButton } from "./navbar";
+import { ClientButton } from "./navbar";
 import { Suspense } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import ClientCart from "./navbar";
 import { signOut } from "@/app/actions/actions";
+import Image from "next/image";
 
 export default function Navbar() {
   const links = [{ label: "Order", link: "/order" }];
 
   return (
-    <nav className="w-full flex flex-col md:flex-row justify-between items-center md:h-32 border-b-4 border-primary/75 sticky top-0 z-10 bg-background/90">
+    <nav className="w-full flex flex-col md:flex-row justify-between items-center md:h-32 border-b-4 border-primary/75 md:sticky md:top-0 z-10 bg-background/90">
       <div className="h-full">
         <Link href="/" className="flex items-center h-full">
-          <img
-            src="dinedash.png"
+          <Image
+            src="/dinedash.png"
             alt="Logo"
-            className="h-32 md:h-full rounded-full p-4"
+            className="h-32 w-full md:h-full rounded-full p-4"
+            width={500}
+            height={500}
+            // style={{
+            //   height: "100%", width: "auto"
+            // }}
           />
           <span className="text-3xl font-funky">DineDash</span>
         </Link>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cartStore } from "@/store";
 import { LoaderCircleIcon, MinusIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const images = ["placeholder-1.jpg", "placeholder-2.jpg", "placeholder-3.jpg"];
@@ -43,14 +44,20 @@ export default function Grid({ dishes }: { dishes: Dish[] | [] }) {
         className="rounded-lg shadow-sm shadow-primary/50 border border-primary overflow-hidden p-1"
         key={dish.id}
       >
-        {/* <img
-            src={dish.imgUrl}
-            alt={dish.name}
-            className="w-full bg-cover bg-center"
-          /> */}
-        <SImage name={dish.name} url={dish.imgUrl} />
+        <Link
+          href={`/order/${dish.slug}`}
+          prefetch={false}
+        >
+          <SImage name={dish.name} url={dish.imgUrl} />
+        </Link>
         <div className="p-4">
-          <h3 className="text-lg font-bold">{dish.name}</h3>
+          <Link
+            href={`/order/${dish.slug}`}
+            prefetch={false}
+            className="hover:underline"
+          >
+            <h3 className="text-lg font-bold">{dish.name}</h3>
+          </Link>
           <p className=" mb-2">Price: ₹{dish.price}</p>
           <BButton
             addItem={() => addItem(dish.slug, dish.price)}
