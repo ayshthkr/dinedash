@@ -67,16 +67,9 @@ export const updateSession = async (request: NextRequest) => {
     } = await supabase.auth.getUser();
 
     const prot = ["/order", "/my-account", "add-dish"];
-
+    const url = new URL("/login", request.url);
     if (prot.includes(request.nextUrl.pathname) && user == null) {
-      return NextResponse.redirect(
-        new URL(
-          "login",
-          process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : "http://localhost:3000"
-        )
-      );
+      return NextResponse.redirect(url);
     }
 
     return response;

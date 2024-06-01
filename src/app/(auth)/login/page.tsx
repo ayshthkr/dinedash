@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SubmitButton } from "./submit-button";
 import { signInWithGithub } from "@/app/actions/actions";
 import Image from "next/image";
