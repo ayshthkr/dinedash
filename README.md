@@ -50,7 +50,7 @@ Start the server
 You can use any postgres database using the script provided below
 (Don't forget to create a public storage bucket from dashboard (last line won't work unless))
 
-```postgresql
+```sql
 -- Create a table for public profiles
 create table
   profiles (
