@@ -49,8 +49,8 @@ async function Loader({ param }: { param: string }) {
   const { data } = await supabase.from("dishes").select("*");
   const dishes = data?.filter(
     (dish) =>
-      dish.slug.toLocaleLowerCase().includes(param.toLocaleLowerCase()) ||
-      dish.name.toLocaleLowerCase().includes(param.toLocaleLowerCase())
+      dish?.slug?.toLocaleLowerCase?.().includes(param.toLocaleLowerCase()) ||
+      dish?.name?.toLocaleLowerCase?.().includes(param.toLocaleLowerCase())
   );
 
   return <Grid dishes={dishes || []} />;

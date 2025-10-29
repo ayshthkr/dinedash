@@ -48,7 +48,7 @@ export default function Grid({ dishes }: { dishes: Dish[] | [] }) {
           href={`/order/${dish.slug}`}
           prefetch={false}
         >
-          <SImage name={dish.name} url={dish.imgUrl} />
+          <SImage name={dish.name} url={dish.imgurl} />
         </Link>
         <div className="p-4">
           <Link
@@ -60,10 +60,10 @@ export default function Grid({ dishes }: { dishes: Dish[] | [] }) {
           </Link>
           <p className=" mb-2">Price: ₹{dish.price}</p>
           <BButton
-            addItem={() => addItem(dish.slug, dish.price)}
+            addItem={() => addItem(dish.slug!, dish.price)}
             items={items}
-            slug={dish.slug}
-            reduce={() => reduceAmount(dish.slug)}
+            slug={dish.slug!}
+            reduce={() => reduceAmount(dish.slug!)}
           />
         </div>
       </div>

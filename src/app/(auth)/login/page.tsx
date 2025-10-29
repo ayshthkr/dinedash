@@ -26,12 +26,6 @@ export default function Login({
           Sign In with Github
         </span>
       </SubmitButton>
-      <SubmitButton formAction={signUp} pendingText="Signing In...">
-        <span className="flex gap-2 items-center">
-          <CircleUserRoundIcon />
-          Sign up anonymously
-        </span>
-      </SubmitButton>
       {searchParams?.message && (
         <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
           {searchParams.message}

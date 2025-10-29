@@ -118,13 +118,13 @@ async function Loader({ slug }: { slug: string }) {
         >
           <ArrowLeft className="hover:bg-white/20 rounded-full" /> Go Back
         </Link>
-        <SImage url={data.imgUrl} name={data.name} />
+        <SImage url={data.imgurl} name={data.name} />
       </div>
       <div className="grid gap-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <h1 className="text-3xl font-bold">{data.name}</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">{data.desc}</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">{data.description}</p>
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
@@ -134,34 +134,38 @@ async function Loader({ slug }: { slug: string }) {
             <div>
               <h3 className="text-xl font-bold">Prep Time</h3>
               <p className="text-gray-500 dark:text-gray-400">
-                {data.prepTime} mins
+                {data.preptime} mins
               </p>
             </div>
             <div>
               <h3 className="text-xl font-bold">Vegetarian</h3>
               <p className="text-gray-500 dark:text-gray-400">
-                {data.isVeg ? "Yes" : "No"}
+                {data.isveg ? "Yes" : "No"}
               </p>
             </div>
           </div>
-          <CartButton price={data.price} slug={data.slug} />
+          <CartButton price={data.price} slug={data.slug!} />
         </div>
         <div>
           <h2 className="text-2xl font-bold">Comments</h2>
           <Form slug={slug} name={profile.username ?? ""} />
           <div className="mt-4 space-y-4">
-            {data.comments.map((comment, i) => {
+            {(data.comments ?? []).map((comment, i) => {
               return (
                 <div className="flex gap-4 " key={i + 1}>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <p className="font-medium flex gap-2">
                         <CircleUserIcon />
-                        {comment.name}
+                        {typeof comment === 'object' && comment !== null && 'name' in comment && typeof comment.name === 'string'
+                          ? comment.name
+                          : "Anonymous"}
                       </p>
                     </div>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {comment.comment}
+                      {typeof comment === 'object' && comment !== null && 'comment' in comment && typeof comment.comment === 'string'
+                        ? comment.comment
+                        : ""}
                     </p>
                   </div>
                 </div>
