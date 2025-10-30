@@ -39,7 +39,7 @@ export default async function RootLayout({
           </div>
           <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-md font-funky">
             By &nbsp;
-              Utkarsh Tyagi
+              Utkarsh Tyagi, Mayank Upadhayay, Abhijeet Singh, Om Sharma
           </footer>
           <UpButton />
         </div>
